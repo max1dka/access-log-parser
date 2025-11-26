@@ -2,9 +2,9 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Введите первое число:");
+        System.out.println("Введите ваше первое число:");
         int number = new Scanner(System.in) .nextInt();
-        System.out.println("Введите второе число:");
+        System.out.println("Введите ваше второе число:");
         int second_number = new Scanner(System.in) .nextInt();
         int summ = number + second_number;
         int diff = number - second_number;
