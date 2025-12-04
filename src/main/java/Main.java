@@ -16,12 +16,12 @@ public class Main {
             continue;
         }
 
-        if (fileExists == false) {
+        if (!fileExists) {
             System.out.println("Указаного файла не существует или введено некорректное значение");
             continue;
         }
 
-        ways += + 1;
+        ways += 1;
         System.out.println("Путь указан верно! Файл существует!");
         System.out.println("Верно указанных путей: " + ways);
 
