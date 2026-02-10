@@ -1,10 +1,7 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.Arrays;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) throws LineTooLongException {
@@ -15,8 +12,6 @@ public class Main {
         File file = new File(path);
         boolean isDirectory = file.isDirectory();
         boolean fileExists = file.exists();
-        System.out.println(isDirectory);
-        System.out.println(fileExists);
 
         if (isDirectory) {
             System.out.println("Данный адрес не ведет к файлу (вы указали путь к папке) ");
@@ -30,49 +25,35 @@ public class Main {
         ways += 1;
         System.out.println("Путь указан верно! Файл существует!");
         System.out.println("Верно указанных путей: " + ways);
+
         int CounterLines = 0;
-        Pattern pattern = Pattern.compile("^(\\S+) (\\S+) (\\S+) \\[(.*?)\\] \"(.*?)\" (\\d{3}) (\\d+|- ) \"(.*?)\" \"(.*?)\"");
         int googleBotCount = 0;
         int yandexBotCount = 0;
+        Statistics stats = new Statistics();
 
            try {
                FileReader fileReader = new FileReader(file);
                BufferedReader reader = new BufferedReader(fileReader);
                String line;
-
                 while ((line = reader.readLine()) != null){
+
                 CounterLines++;
                 int lenght = line.length();
 
                 if (lenght > 1024) {
                     throw new LineTooLongException("Обнаружена строка длиннее 1024 символов (длина: " + lenght + ")");
                 }
-                Matcher matcher = pattern.matcher(line);
 
-                if (matcher.find()) {
-                String userAgent = matcher.group(9);
-                    int start = userAgent.indexOf('(');
-                    int end = userAgent.indexOf(')');
-                // Если выполнять задание, и брать только первые скобки
-                //    if (start != -1 && end != -1) {
-                  //      String firstBrackets = userAgent.substring(start + 1, end);
-                  //      String[] parts = firstBrackets.split(";");
+                LogEntry logs = new LogEntry(line);
+                stats.addEntry(logs);
+                String userAgent = logs.getUserAgent();
+                UserAgent browseAndOS = new UserAgent(logs.getUserAgent());
+                System.out.println(browseAndOS);
 
-                  //      if (parts.length >= 2) {
-                 //           String fragment = parts[1].trim();
-                  //          String botName = fragment.split("/")[0];
-                 //           if (botName.equals("Googlebot")) {
-                 //               googleBotCount++;
-                 //           } else if (botName.equals("YandexBot")) {
-                 //               yandexBotCount++;
-                 //           }
-                 //       }
-                 //   }
                     if (userAgent.contains("Googlebot")) {
                         googleBotCount++;
                     } else if (userAgent.contains("YandexBot")) {
                         yandexBotCount++;
-                    }
                     }
                         // C:\Users\max23\OneDrive\Рабочий стол\access.log
                     }
@@ -80,6 +61,9 @@ public class Main {
            catch (Exception ex) {
                ex.printStackTrace();
            }
+
+            System.out.println("Общий трафик: " + stats.getTotalTraffic());
+            System.out.println("Средний трафик за час: " + stats.getTrafficRate());
             System.out.println("Общее количество строк в файле: " + CounterLines);
             double googleShare = (double) googleBotCount / CounterLines;
             double yandexShare = (double) yandexBotCount / CounterLines;
@@ -87,5 +71,6 @@ public class Main {
             System.out.println("Запросов от Googlebot: " + googleBotCount);
             System.out.println("Доля запросов от YandexBot: " + yandexShare);
             System.out.println("Запросов от YandexBot: " + yandexBotCount);}
+
     }
 }
