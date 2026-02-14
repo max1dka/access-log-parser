@@ -79,10 +79,10 @@ public class LogEntry {
     public HTTPMethods getMethod(){
         return this.method;
     }
-    public String getpath(){
+    public String getPath(){
         return this.path;
     }
-    public int getCode(){
+    public int getResponseCode(){
         return this.responseCode;
     }
     public int getResponseSize(){
@@ -94,6 +94,7 @@ public class LogEntry {
     public String getUserAgent(){
         return this.userAgent;
     }
+
 
     @Override
     public String toString() {

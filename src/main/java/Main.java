@@ -62,15 +62,17 @@ public class Main {
                ex.printStackTrace();
            }
 
-            System.out.println("Общий трафик: " + stats.getTotalTraffic());
-            System.out.println("Средний трафик за час: " + stats.getTrafficRate());
-            System.out.println("Общее количество строк в файле: " + CounterLines);
-            double googleShare = (double) googleBotCount / CounterLines;
-            double yandexShare = (double) yandexBotCount / CounterLines;
-            System.out.println("Доля запросов от Googlebot: " + googleShare);
-            System.out.println("Запросов от Googlebot: " + googleBotCount);
-            System.out.println("Доля запросов от YandexBot: " + yandexShare);
-            System.out.println("Запросов от YandexBot: " + yandexBotCount);}
+           System.out.println("Общий трафик: " + stats.getTotalTraffic());
+           System.out.println("Список существующих страниц " + stats.getPathSuccess());
+           System.out.println(stats.osStatistics());
+           System.out.println("Средний трафик за час: " + stats.getTrafficRate());
+           System.out.println("Общее количество строк в файле: " + CounterLines);
+           double googleShare = (double) googleBotCount / CounterLines;
+           double yandexShare = (double) yandexBotCount / CounterLines;
+           System.out.println("Доля запросов от Googlebot: " + googleShare);
+           System.out.println("Запросов от Googlebot: " + googleBotCount);
+           System.out.println("Доля запросов от YandexBot: " + yandexShare);
+           System.out.println("Запросов от YandexBot: " + yandexBotCount);}
 
     }
 }
