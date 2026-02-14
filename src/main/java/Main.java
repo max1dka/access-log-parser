@@ -67,7 +67,9 @@ public class Main {
             System.out.println("Список не существующих страниц " + stats.getPathFail());
            System.out.println(stats.osStatistics());
             System.out.println(stats.browserStatistics());
-
+            System.out.println("Среднее кол-во ошибочных запросов за час " + stats.getAverageErrorsPerHour());
+            System.out.println("Среднее посещяемость пользователем " + stats.getAverageVisitsPerUser());
+            System.out.println("Среднее кол-во запросов за час " + stats.getAverageVisit());
            System.out.println("Средний трафик за час: " + stats.getTrafficRate());
            System.out.println("Общее количество строк в файле: " + CounterLines);
            double googleShare = (double) googleBotCount / CounterLines;

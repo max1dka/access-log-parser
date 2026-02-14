@@ -4,7 +4,8 @@ import java.util.regex.Pattern;
 public class UserAgent {
     private final OperatingSystem operatingSystem;
     private final Browser browser;
-
+    public boolean isBot;
+    private String userAgentString;
     private static final Pattern OS_INFO_PATTERN = Pattern.compile("^.*?\\(([^)]*)\\)");
 
 
@@ -51,9 +52,13 @@ public class UserAgent {
             foundBrowser = Browser.SAFARI;
         }
         this.browser = foundBrowser;
+
     }
 
-
+    public boolean isBot() {
+        return userAgentString != null && userAgentString.toLowerCase().contains("bot");
+    }
+    
     public OperatingSystem getOperatingSystem() {
         return operatingSystem;
     }
