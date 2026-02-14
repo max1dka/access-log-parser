@@ -63,8 +63,11 @@ public class Main {
            }
 
            System.out.println("Общий трафик: " + stats.getTotalTraffic());
-           System.out.println("Список существующих страниц " + stats.getPathSuccess());
+           //System.out.println("Список существующих страниц " + stats.getPathSuccess());
+            System.out.println("Список не существующих страниц " + stats.getPathFail());
            System.out.println(stats.osStatistics());
+            System.out.println(stats.browserStatistics());
+
            System.out.println("Средний трафик за час: " + stats.getTrafficRate());
            System.out.println("Общее количество строк в файле: " + CounterLines);
            double googleShare = (double) googleBotCount / CounterLines;

@@ -10,7 +10,9 @@ public class Statistics {
     private LocalDateTime minTime;
     private LocalDateTime maxTime;
     HashSet<String> pathSuccess = new HashSet<>();
+    HashSet<String> pathFail = new HashSet<>();
     HashMap<String, Integer> osCountMap = new HashMap<>();
+    HashMap<String, Integer> browserCountMap = new HashMap<>();
 
 
 
@@ -33,7 +35,18 @@ public class Statistics {
         if (logs.getResponseCode() == 200){
             pathSuccess.add(logs.getPath());
         }
+        if (logs.getResponseCode() == 404){
+            pathFail.add(logs.getPath());
+        }
         UserAgent ua = new UserAgent(logs.getUserAgent());
+       String browserName = ua.getBrowser().toString();
+       if (browserCountMap.containsKey(browserName)){
+           browserCountMap.put(browserName, browserCountMap.get(browserName) + 1);
+       } else {
+           browserCountMap.put(browserName, 1);
+       }
+
+
         String osName = ua.getOperatingSystem().toString();
         if (osCountMap.containsKey(osName)) {
             osCountMap.put(osName, osCountMap.get(osName) + 1);
@@ -42,7 +55,23 @@ public class Statistics {
         }
 
     }
+    public HashMap<String, Double> browserStatistics(){
+        HashMap<String, Double> browserShares = new HashMap<>();
 
+        // Считаем общее количество всех ОС
+        int totalOSCount = 0;
+        for (int count : browserCountMap.values()) {
+            totalOSCount += count;
+        }
+
+        // Заполняем новую мапу долями
+        for (Map.Entry<String, Integer> entry : browserCountMap.entrySet()) {
+            double share = (double) entry.getValue() / totalOSCount;
+            browserShares.put(entry.getKey(), share);
+        }
+
+        return browserShares;
+    }
     public HashMap<String, Double> osStatistics(){
         HashMap<String, Double> osShares = new HashMap<>();
 
@@ -73,5 +102,8 @@ public class Statistics {
 
     public HashSet<String> getPathSuccess() {
         return pathSuccess;
+    }
+    public HashSet<String> getPathFail() {
+        return pathFail;
     }
 }
