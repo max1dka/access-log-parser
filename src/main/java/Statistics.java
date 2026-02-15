@@ -17,8 +17,9 @@ public class Statistics {
     private int userVisits = 0;
     private int errorRequests = 0;
     private HashSet<String> uniqueUsers = new HashSet<>();
-
-
+    private HashMap<Long, Integer> visitsPerSecond = new HashMap<>();
+    private HashSet<String> refererDomains = new HashSet<>();
+    private HashMap<String, Integer> userVisitCounts = new HashMap<>();
 
     public Statistics(){
         this.totalTraffic = 0;
@@ -55,7 +56,16 @@ public class Statistics {
         if (!ua.isBot()) {
             this.userVisits++;
             this.uniqueUsers.add(logs.getIpAddr());
+            long second = logs.getTime().atZone(java.time.ZoneId.systemDefault()).toEpochSecond();
+            visitsPerSecond.put(second, visitsPerSecond.getOrDefault(second, 0) + 1);
+            String ip = logs.getIpAddr();
+            userVisitCounts.put(ip, userVisitCounts.getOrDefault(ip, 0) + 1);
         }
+
+        String referer = logs.getReferer();
+        if (referer != null && (referer.startsWith("http://") || referer.startsWith("https://"))) {
+            String domain = referer.replaceFirst("https?://", "").split("/")[0];
+            refererDomains.add(domain); }
 
         if (logs.getResponseCode() >= 400 && logs.getResponseCode() < 600) {
             this.errorRequests++;
@@ -124,6 +134,26 @@ public class Statistics {
         long hours = ChronoUnit.HOURS.between(minTime, maxTime);
         if (hours == 0) hours = 1;
         return (double) totalTraffic / hours;
+    }
+
+    public int getPeakVisitsPerSecond() {
+        int max = 0;
+        for (int count : visitsPerSecond.values()) {
+            if (count > max) max = count;
+        }
+        return max;
+    }
+
+    public HashSet<String> getRefererDomains() {
+        return refererDomains;
+    }
+
+    public int getMaxVisitsPerUser() {
+        int max = 0;
+        for (int count : userVisitCounts.values()) {
+            if (count > max) max = count;
+        }
+        return max;
     }
 
     public int getTotalTraffic() {

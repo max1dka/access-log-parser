@@ -48,7 +48,7 @@ public class Main {
                 stats.addEntry(logs);
                 String userAgent = logs.getUserAgent();
                 UserAgent browseAndOS = new UserAgent(logs.getUserAgent());
-                System.out.println(browseAndOS);
+               // System.out.println(browseAndOS);
 
                     if (userAgent.contains("Googlebot")) {
                         googleBotCount++;
@@ -62,22 +62,25 @@ public class Main {
                ex.printStackTrace();
            }
 
-           System.out.println("Общий трафик: " + stats.getTotalTraffic());
+       //    System.out.println("Общий трафик: " + stats.getTotalTraffic());
            //System.out.println("Список существующих страниц " + stats.getPathSuccess());
-            System.out.println("Список не существующих страниц " + stats.getPathFail());
-           System.out.println(stats.osStatistics());
-            System.out.println(stats.browserStatistics());
-            System.out.println("Среднее кол-во ошибочных запросов за час " + stats.getAverageErrorsPerHour());
-            System.out.println("Среднее посещяемость пользователем " + stats.getAverageVisitsPerUser());
-            System.out.println("Среднее кол-во запросов за час " + stats.getAverageVisit());
-           System.out.println("Средний трафик за час: " + stats.getTrafficRate());
-           System.out.println("Общее количество строк в файле: " + CounterLines);
+       //     System.out.println("Список не существующих страниц " + stats.getPathFail());
+       //    System.out.println(stats.osStatistics());
+        //    System.out.println(stats.browserStatistics());
+        //    System.out.println("Среднее кол-во ошибочных запросов за час " + stats.getAverageErrorsPerHour());
+        //    System.out.println("Среднее посещяемость пользователем " + stats.getAverageVisitsPerUser());
+        //    System.out.println("Среднее кол-во запросов за час " + stats.getAverageVisit());
+        //   System.out.println("Средний трафик за час: " + stats.getTrafficRate());
+        //   System.out.println("Общее количество строк в файле: " + CounterLines);
            double googleShare = (double) googleBotCount / CounterLines;
            double yandexShare = (double) yandexBotCount / CounterLines;
-           System.out.println("Доля запросов от Googlebot: " + googleShare);
-           System.out.println("Запросов от Googlebot: " + googleBotCount);
-           System.out.println("Доля запросов от YandexBot: " + yandexShare);
-           System.out.println("Запросов от YandexBot: " + yandexBotCount);}
+         //  System.out.println("Доля запросов от Googlebot: " + googleShare);
+         //  System.out.println("Запросов от Googlebot: " + googleBotCount);
+         //  System.out.println("Доля запросов от YandexBot: " + yandexShare);
+            //  System.out.println("Запросов от YandexBot: " + yandexBotCount);
+            System.out.println("Пиковая посещаемость в секунду: " + stats.getPeakVisitsPerSecond());
+            System.out.println("Пиковая посещаемость в секунду: " + stats.getRefererDomains());
+            }
 
     }
 }
